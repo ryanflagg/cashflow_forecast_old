@@ -11,14 +11,16 @@ import java.util.Date;
  */
 public class Transaction {
     
-    Date date;
-    String freq;
-    float amount;
-    String name;
-    String type;
+    int index;
+    Date date;  // of 1st payment
+    String freq; // monthly / weekly
+    float amount; // £££££
+    String name;  //rent, gas etc...
+    String type;  //income or expenditure
     
-    public Transaction(float amount, String name, String type){
+    public Transaction(int i, float amount, String name, String type){
         
+        this.index = i;
         this.amount = amount;
         //this.freq = frequency;
         //this.date = date;
@@ -66,5 +68,14 @@ public class Transaction {
     public void setType(String type) {
         this.type = type;
     }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public int getIndex() {
+        return index;
+    }
        
+    
 }

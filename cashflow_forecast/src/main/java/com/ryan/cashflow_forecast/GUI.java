@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package com.ryan.cashflow_forecast;
-
+import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author ryanf
@@ -37,7 +38,18 @@ public class GUI extends javax.swing.JFrame {
         nameLabel = new javax.swing.JLabel();
         amount = new javax.swing.JTextField();
         amountLabel = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        transTable = new javax.swing.JTable();
+        jSeparator1 = new javax.swing.JSeparator();
+        deleteTrans = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        forecastTable = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,16 +87,57 @@ public class GUI extends javax.swing.JFrame {
 
         amountLabel.setText("Amount");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 474, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 276, Short.MAX_VALUE)
-        );
+        transTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Number", "Name", "Type", "Amount"
+            }
+        ));
+        jScrollPane2.setViewportView(transTable);
+
+        deleteTrans.setText("Delete Transaction");
+        deleteTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteTransActionPerformed(evt);
+            }
+        });
+
+        forecastTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "","1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"
+            }
+        ));
+        jScrollPane1.setViewportView(forecastTable);
+
+        jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jMenu1.setText("File");
+
+        jMenuItem1.setText("jMenuItem1");
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("jMenuItem2");
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,47 +146,71 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(newTransaction)
-                    .addComponent(expenditure)
-                    .addComponent(income, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(amountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(name)
-                            .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(newForecast))
-                .addGap(35, 35, 35)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(amountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(amount)
+                                    .addComponent(name)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(newForecast)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(income, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(expenditure))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(8, 8, 8)
+                                        .addComponent(newTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(deleteTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 84, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(64, 64, 64)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(newForecast)
-                        .addGap(18, 18, 18)
-                        .addComponent(income)
-                        .addGap(1, 1, 1)
-                        .addComponent(expenditure)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameLabel))
+                            .addComponent(newForecast)
+                            .addComponent(jButton1))
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(income)
+                            .addComponent(expenditure))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nameLabel)
+                            .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(amountLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addComponent(newTransaction)
-                        .addGap(100, 100, 100))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(newTransaction)
+                            .addComponent(deleteTrans))))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -141,7 +218,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void newForecastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newForecastActionPerformed
         // TODO add your handling code here:
-        Forecast forecast = new Forecast();
+        this.forecast = new Forecast();
         
     }//GEN-LAST:event_newForecastActionPerformed
 
@@ -151,6 +228,9 @@ public class GUI extends javax.swing.JFrame {
 
     private void newTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTransactionActionPerformed
         // TODO add your handling code here:
+        
+        int index = this.forecast.transactionIndex();
+        
         String textName = name.getText();
         String amt = amount.getText();
         float f = Float.parseFloat(amt);
@@ -162,11 +242,92 @@ public class GUI extends javax.swing.JFrame {
             typeSelection = expenditure.getText();
         }
         
-        Transaction t = new Transaction(f, textName, typeSelection);
+        Transaction t = new Transaction(index, f, textName, typeSelection);
         
         this.forecast.addTransaction(t);
+        
+        DefaultTableModel transModel = (DefaultTableModel) transTable.getModel();
+        transModel.addRow(new Object[]{index, textName, typeSelection, f});
     }//GEN-LAST:event_newTransactionActionPerformed
 
+    private void deleteTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTransActionPerformed
+        // TODO add your handling code here:
+        int row = this.transTable.getSelectedRow();
+        int column =0;
+        String value = this.transTable.getModel().getValueAt(row, column).toString();
+        int index = Integer.parseInt(value);
+        this.forecast.deleteTransaction(index);
+        this.forecast.reIndexTrans();
+        this.updateTransTable();
+    }//GEN-LAST:event_deleteTransActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+               
+        this.updateForecast();
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
+    private void updateForecast(){
+        this.forecast.createForecast();
+        forecastTable.getModel();
+        
+        try{
+            // update the income rows in table
+            forecastTable.setValueAt("Income", 0, 0);
+            for (int i = 0; i < 12; i++){
+                float incVal = this.forecast.income.get(i);
+                forecastTable.setValueAt(incVal, 0, i + 1);
+            }
+        
+            // update the expenditure rows
+            forecastTable.setValueAt("Expenditure", 1, 0);
+            for (int i = 0; i < 12; i++){
+                float expVal = this.forecast.expenditure.get(i);
+                forecastTable.setValueAt(expVal, 1, i + 1);
+            }
+        
+            // update the surplurs rows
+            forecastTable.setValueAt("Surplus", 3, 0);
+            for (int i = 0; i < 12; i++){
+                float surplusVal = this.forecast.surplus.get(i);
+                forecastTable.setValueAt(surplusVal, 3, i + 1);
+        }
+        }
+        catch(Exception e){
+                
+            showMessageDialog(null, "There was an error updating the cashflow forecast view!");
+                    
+        }
+            
+        
+    }
+    
+    private void updateTransTable(){
+        int numRows = this.transTable.getRowCount();
+
+        // Clear the table
+        DefaultTableModel transModel = (DefaultTableModel) transTable.getModel();
+        transModel.setRowCount(0);
+        
+        
+
+        for (int i = 0; i < numRows; i++){
+            // get object variables  
+            
+            int index = i;
+            String textName = this.forecast.getTransactions().get(i).getName();
+            String typeSelection = this.forecast.getTransactions().get(i).getType();
+            float f = this.forecast.getTransactions().get(i).getAmount();
+            
+            // update table
+            transTable.getModel();
+            transModel.addRow(new Object[]{index, textName, typeSelection, f});
+        }
+        // get table model 
+        // clear table
+        // reset index numbers
+        // iterate through tranactions and re-popultae table
+        // add method to end of delete transaction button.
+    }
     /**
      * @param args the command line arguments
      */
@@ -205,13 +366,24 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField amount;
     private javax.swing.JLabel amountLabel;
+    private javax.swing.JButton deleteTrans;
     private javax.swing.JRadioButton expenditure;
+    private javax.swing.JTable forecastTable;
     private javax.swing.JRadioButton income;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField name;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JButton newForecast;
     private javax.swing.JButton newTransaction;
+    private javax.swing.JTable transTable;
     private javax.swing.ButtonGroup type;
     // End of variables declaration//GEN-END:variables
 }
