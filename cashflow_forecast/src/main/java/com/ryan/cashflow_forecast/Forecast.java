@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import static javax.swing.JOptionPane.showMessageDialog;
 import java.io.Serializable;
+import java.util.Calendar;
+
 /**
  *
  * @author ryanf
@@ -15,7 +17,7 @@ import java.io.Serializable;
 public class Forecast implements Serializable{
     
     Date start;
-    int countMonths = 12;
+    private static final int COUNT_MONTHS = 12;
     
     ArrayList<Float> income = new ArrayList<>();
     ArrayList<Float> expenditure = new ArrayList<>();
@@ -44,8 +46,11 @@ public class Forecast implements Serializable{
         return transactions;
     }
 
-   
-    
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+       
     // add transaction 
     public void addTransaction(Transaction transaction){
         this.transactions.add(transaction);
@@ -53,10 +58,7 @@ public class Forecast implements Serializable{
     }
     
     public void deleteTransaction(int index){
-        showMessageDialog(null, "before: " + index);
-        this.transactions.remove(index);
-        
-              
+        this.transactions.remove(index);              
     }
     
     public void reIndexTrans(){
@@ -73,11 +75,9 @@ public class Forecast implements Serializable{
             index = 0;
         }
         else{
-            int len = this.transactions.size();
-            
+            int len = this.transactions.size();            
             index = len;
         }
-        showMessageDialog(null, "transaction list size = " + index);
         return index;
     }
     
@@ -87,11 +87,12 @@ public class Forecast implements Serializable{
         // iterates through transactions, splitting expenditure and income.
         // updates the income, expenditure and surplus lists with the entered transactions.
 
+
         this.income.clear();
         this.expenditure.clear();
         this.surplus.clear();
         
-        for (int mth = 0; mth < this.countMonths; mth++){
+        for (int mth = 0; mth < COUNT_MONTHS; mth++){
             
             float monthIncomeTotal = 0;
             float monthExpTotal = 0;
@@ -99,15 +100,18 @@ public class Forecast implements Serializable{
             for (int i = 0; i < transactions.size(); i++){
                 Transaction t = transactions.get(i);
                 String type = t.getType();
-                     
+                ArrayList<Integer> schedule = t.getTransSched();
+                
+                
                 try {
-            // split income and expenditure
-                    if ("Income".equals(type)){
+            
+                // split income and expenditure
+                    if ("Income".equals(type) && schedule.get(i) == 1){
                         float amt = t.getAmount();
                         monthIncomeTotal = monthIncomeTotal + amt;               
                     }
             
-                    if ("Expenditure".equals(type)){
+                    if ("Expenditure".equals(type) && schedule.get(i) == 1){
                         float amt = t.getAmount();
                         monthExpTotal = monthExpTotal + amt;          
                     }
@@ -115,7 +119,8 @@ public class Forecast implements Serializable{
                 catch(Exception e){
                     
                     showMessageDialog(null, "There was an error sorting the transactions!");
-                }               
+                }
+            
             }
             
             try{
@@ -133,14 +138,37 @@ public class Forecast implements Serializable{
             }
         }
        
+            
     }
     
-    private void saveState(String fileName){
-        // only need to save args for forecast constructor and transaction attributes
-        // create 2 files 1 for forecats constructor and 1 for transactions
-        // forecast constructor, small txt 1 arg per line.
-        // transactions, attributes for each object on a single line delimited with ","
-        // iterate over transaction objects create strings to write to file
-        // for read, iterate over each line in txt file passing each arg to constructor
+    public static ArrayList monthList(){
+        
+        ArrayList<Integer> months = new ArrayList<>();
+        int MONTHS = 12;
+        
+        // gets current month
+        Date now = Calendar.getInstance().getTime();
+        Calendar calNow = Calendar.getInstance();
+        calNow.setTime(now);
+        int thisMonth = calNow.get(Calendar.MONTH);
+        
+        // populates the month list
+        for (int i = 0; i < MONTHS; i++){
+            
+            if (thisMonth < 12){
+                months.set(i, thisMonth);
+                thisMonth++;
+                }
+            else {
+                thisMonth = thisMonth - 12;
+                months.set(i, thisMonth);
+                thisMonth++;
+            }
+        }
+        return months;       
     }
-}
+    
+
+    }
+           
+

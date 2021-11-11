@@ -5,11 +5,14 @@ package com.ryan.cashflow_forecast;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.util.ArrayList;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -18,38 +21,53 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class Persistence {
     
-    private static final String filePath = "C:\\Users\\ryanf\\Documents\\Forecast App\\save";
+    private static final String FILE_PATH = "save.txt";
     
     public void Persistence(){
         // TODO: add arg for user to provide path 
     }
     
-    public void saveState(Forecast forecast){
+    public void saveState(ArrayList<Transaction> list){
         
         try{
-            FileOutputStream fileOut = new FileOutputStream(filePath);
-            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-            objectOut.writeObject(forecast);
-            objectOut.close();
+            ArrayList<Transaction> transList = list;
+            
+            
+            FileOutputStream fileOut = new FileOutputStream(FILE_PATH);
+            ObjectOutputStream Objout = new ObjectOutputStream(fileOut);
+            Objout.writeObject(transList);
+            Objout.close();
+        }
+        
+        catch(IOException io){
+            showMessageDialog(null, "IOException: There was an error saving the forecast!");
+            io.printStackTrace();
         }
         
         catch(Exception e){
             showMessageDialog(null, "There was an error saving the forecast!");
+            e.printStackTrace();
         }
     }
     
-    public Object loadState(){
+    public ArrayList<Transaction> loadState(){
         
         try{
-            FileInputStream file = new FileInputStream(filePath);
+            FileInputStream file = new FileInputStream(FILE_PATH);
             ObjectInputStream objectIn = new ObjectInputStream(file);
             
-            Object object = objectIn.readObject();
-            return object;           
-        }
+            ArrayList<Transaction> transList = new ArrayList<>();
+            transList = (ArrayList<Transaction>)objectIn.readObject();
+            
+            return transList;
+                
+            }
+            
+        
         
         catch(Exception e){
             showMessageDialog(null, "There was an error loading the forecast!");
+            e.printStackTrace();
             return null;
         }
         
