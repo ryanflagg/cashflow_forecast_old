@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 package com.ryan.cashflow_forecast;
+import java.util.ArrayList;
+import java.util.Date;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ryanf
@@ -30,7 +33,7 @@ public class GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         type = new javax.swing.ButtonGroup();
-        newForecast = new javax.swing.JButton();
+        frequency = new javax.swing.ButtonGroup();
         newTransaction = new javax.swing.JButton();
         name = new javax.swing.JTextField();
         income = new javax.swing.JRadioButton();
@@ -40,26 +43,26 @@ public class GUI extends javax.swing.JFrame {
         amountLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         transTable = new javax.swing.JTable();
-        jSeparator1 = new javax.swing.JSeparator();
         deleteTrans = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         forecastTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        weekly = new javax.swing.JRadioButton();
+        monthly = new javax.swing.JRadioButton();
+        quarterly = new javax.swing.JRadioButton();
+        annually = new javax.swing.JRadioButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        newForecast1 = new javax.swing.JMenuItem();
+        save = new javax.swing.JMenuItem();
+        load = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        newForecast.setText("New Forecast");
-        newForecast.setToolTipText("");
-        newForecast.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newForecastActionPerformed(evt);
-            }
-        });
 
         newTransaction.setText("Add Transaction");
         newTransaction.addActionListener(new java.awt.event.ActionListener() {
@@ -67,8 +70,6 @@ public class GUI extends javax.swing.JFrame {
                 newTransactionActionPerformed(evt);
             }
         });
-
-        name.setText("Description");
 
         type.add(income);
         income.setText("Income");
@@ -82,8 +83,6 @@ public class GUI extends javax.swing.JFrame {
         });
 
         nameLabel.setText("Description");
-
-        amount.setText("Amount");
 
         amountLabel.setText("Amount");
 
@@ -104,6 +103,26 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1068, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 114, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("tab1", jPanel1);
+
         forecastTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -117,20 +136,69 @@ public class GUI extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(forecastTable);
 
-        jButton1.setText("Update");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1068, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1)
+                    .addContainerGap()))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 119, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("tab2", jPanel2);
+
+        frequency.add(weekly);
+        weekly.setText("Weekly");
+
+        frequency.add(monthly);
+        monthly.setText("monthly");
+
+        frequency.add(quarterly);
+        quarterly.setText("Quarterly");
+
+        frequency.add(annually);
+        annually.setText("Annually");
+
+        ArrayList<String> months = Month.getMonths();
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(months.toArray(new String[0])));
 
         jMenu1.setText("File");
 
-        jMenuItem1.setText("jMenuItem1");
-        jMenu1.add(jMenuItem1);
+        newForecast1.setText("New");
+        newForecast1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newForecast1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(newForecast1);
 
-        jMenuItem2.setText("jMenuItem2");
-        jMenu1.add(jMenuItem2);
+        save.setText("Save");
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
+        jMenu1.add(save);
+
+        load.setText("Load");
+        load.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadActionPerformed(evt);
+            }
+        });
+        jMenu1.add(load);
 
         jMenuBar1.add(jMenu1);
 
@@ -144,83 +212,86 @@ public class GUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
-                    .addGroup(layout.createSequentialGroup()
+                    .addComponent(jTabbedPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(amountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(amount)
-                                    .addComponent(name)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(newForecast)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(amountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(amount)
+                                            .addComponent(name)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(income, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(expenditure))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(8, 8, 8)
-                                        .addComponent(newTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(deleteTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 84, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
+                                        .addComponent(weekly, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(monthly, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(quarterly, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(annually, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(newTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(47, 47, 47)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(489, 489, 489)
+                                .addComponent(deleteTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(newForecast)
-                            .addComponent(jButton1))
-                        .addGap(14, 14, 14)
+                            .addComponent(deleteTrans)
+                            .addComponent(jButton1)
+                            .addComponent(newTransaction)))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(income)
                             .addComponent(expenditure))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(weekly)
+                            .addComponent(monthly)
+                            .addComponent(quarterly)
+                            .addComponent(annually))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nameLabel)
                             .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(amountLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(newTransaction)
-                            .addComponent(deleteTrans))))
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(amountLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void newForecastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newForecastActionPerformed
-        // TODO add your handling code here:
-        this.forecast = new Forecast();
-        
-    }//GEN-LAST:event_newForecastActionPerformed
 
     private void expenditureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expenditureActionPerformed
         // TODO add your handling code here:
@@ -233,7 +304,7 @@ public class GUI extends javax.swing.JFrame {
         
         String textName = name.getText();
         String amt = amount.getText();
-        float f = Float.parseFloat(amt);
+        float fAmt = Float.parseFloat(amt);
         String typeSelection;
         
         if(income.isSelected()){
@@ -241,13 +312,15 @@ public class GUI extends javax.swing.JFrame {
         }else{
             typeSelection = expenditure.getText();
         }
+        Date date = new Date();
+        String freq = "yearly";
         
-        Transaction t = new Transaction(index, f, textName, typeSelection);
+        Transaction t = new Transaction(index, date, freq, fAmt, textName, typeSelection);
         
         this.forecast.addTransaction(t);
         
         DefaultTableModel transModel = (DefaultTableModel) transTable.getModel();
-        transModel.addRow(new Object[]{index, textName, typeSelection, f});
+        transModel.addRow(new Object[]{index, textName, typeSelection, fAmt});
     }//GEN-LAST:event_newTransactionActionPerformed
 
     private void deleteTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTransActionPerformed
@@ -259,12 +332,36 @@ public class GUI extends javax.swing.JFrame {
         this.forecast.deleteTransaction(index);
         this.forecast.reIndexTrans();
         this.updateTransTable();
+        this.updateForecast();
     }//GEN-LAST:event_deleteTransActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
                
         this.updateForecast();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        Persistence percy = new Persistence();
+        
+        ArrayList<Transaction> transList = this.forecast.getTransactions();
+        percy.saveState(transList);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveActionPerformed
+
+    private void loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadActionPerformed
+        // TODO add your handling code here:
+        Persistence percy = new Persistence();
+        ArrayList<Transaction> transList = percy.loadState();
+        this.forecast.setTransactions(transList);
+        this.loadTransTable();
+        this.updateForecast();
+
+    }//GEN-LAST:event_loadActionPerformed
+
+    private void newForecast1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newForecast1ActionPerformed
+        // TODO add your handling code here:
+        this.newForecast();
+    }//GEN-LAST:event_newForecast1ActionPerformed
     
     private void updateForecast(){
         this.forecast.createForecast();
@@ -322,12 +419,36 @@ public class GUI extends javax.swing.JFrame {
             transTable.getModel();
             transModel.addRow(new Object[]{index, textName, typeSelection, f});
         }
-        // get table model 
-        // clear table
-        // reset index numbers
-        // iterate through tranactions and re-popultae table
-        // add method to end of delete transaction button.
     }
+    
+    private void loadTransTable(){
+        int numRows = this.forecast.transactions.size();
+
+        // Clear the table
+        DefaultTableModel transModel = (DefaultTableModel) transTable.getModel();
+        transModel.setRowCount(0);
+           
+        for (int i = 0; i < numRows; i++){
+            // get object variables  
+            
+            int index = i;
+            String textName = this.forecast.getTransactions().get(i).getName();
+            String typeSelection = this.forecast.getTransactions().get(i).getType();
+            float f = this.forecast.getTransactions().get(i).getAmount();
+            
+            // update table
+            transTable.getModel();
+            transModel.addRow(new Object[]{index, textName, typeSelection, f});
+        }
+    }
+    
+    private void newForecast(){
+        this.forecast = new Forecast();
+        this.forecast.transactions.clear();
+        this.updateTransTable();
+        this.updateForecast();
+    
+}
     /**
      * @param args the command line arguments
      */
@@ -354,36 +475,46 @@ public class GUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new GUI().setVisible(true);
             }
+            
+            
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField amount;
     private javax.swing.JLabel amountLabel;
+    private javax.swing.JRadioButton annually;
     private javax.swing.JButton deleteTrans;
     private javax.swing.JRadioButton expenditure;
     private javax.swing.JTable forecastTable;
+    private javax.swing.ButtonGroup frequency;
     private javax.swing.JRadioButton income;
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JMenuItem load;
+    private javax.swing.JRadioButton monthly;
     private javax.swing.JTextField name;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JButton newForecast;
+    private javax.swing.JMenuItem newForecast1;
     private javax.swing.JButton newTransaction;
+    private javax.swing.JRadioButton quarterly;
+    private javax.swing.JMenuItem save;
     private javax.swing.JTable transTable;
     private javax.swing.ButtonGroup type;
+    private javax.swing.JRadioButton weekly;
     // End of variables declaration//GEN-END:variables
 }
